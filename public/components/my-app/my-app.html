@@ -1,0 +1,313 @@
+//<editor-fold desc="Imports">
+    <link rel="import" href="/bower_components/polymer/polymer.html">
+    <link rel="import" href="/bower_components/polymer-redux/polymer-redux.html" />
+    <link rel="import" href="/components/my-ui/my-ui.html" />
+    <link rel="import" href="/components/my-saga/my-saga.html" />
+    <link rel="import" href="/components/my-saga/my-saga-reset.html" />
+    <link rel="import" href="/components/my-saga/my-saga-update.html" />
+    <link rel="import" href="/components/my-saga/my-saga-session.html" />
+    //</editor-fold>
+
+<!-- Defines element markup -->
+<dom-module id="my-app" style="background-color: red">
+    <template>
+        <link rel="stylesheet" href="my-app.css">
+
+
+        <!--/////////////////////////////////////////-->
+        <!--// console-->
+        <!--/////////////////////////////////////////-->
+        <div class="sagaConsole" on-wheel=slideConsole>
+            <div class="sagaConsoleInner" >
+
+                <my-saga id="session"
+                         name="session"
+                         desc="Manage login and logout">
+
+                    <my-saga-session saga autoStart>
+
+                        <my-saga id="update"
+                                 name="update"
+                                 desc="Update counter on plus/minus clicks">
+                            <my-saga-update saga></my-saga-update>
+                        </my-saga>
+
+                        <my-saga id="reset"
+                                 name="reset"
+                                 desc="Reset counter after 3 minus clicks">
+                            <my-saga-reset saga>
+
+                    </my-saga-session>
+                </my-saga>
+            </div>
+        </div>
+
+
+        <!--/////////////////////////////////////////-->
+        <!--// UI-->
+        <!--/////////////////////////////////////////-->
+        <px-card id="UI" on-wheel=slideConsole>
+
+            <my-ui
+
+                   messagetype={{messagetype}}
+                   message={{approvalString}}
+                   loading="{{loading}}"
+                   count="{{count}}"
+                   clicks="{{clicks}}"
+                   on-plus="onPlusClick"
+                   on-minus="onMinusClick"
+                   on-reset="onResetClick"
+                   on-logout="onLogoutClick"
+                   on-login="onLoginClick"
+            >
+            </my-ui>
+
+        </px-card>
+        </div>
+
+        <!--<my-reducer id="reducer"></my-reducer>-->
+    </template>
+</dom-module>
+
+<!-- Registers custom element -->
+<script>
+    var reducer = function(state, action){
+        const initialState = {
+            value: 0,
+            clicks: '>',
+            loading: false,
+            approvalString: " PRESS A BUTTON TO UPDATE THE COUNTER",
+            messagetype: "unknown",
+            cachedValue: 0
+        };
+
+        if (state === undefined) state = initialState;
+
+        switch (action.type) {
+            case 'RESET':
+                return initialState;
+            case 'SET_MESSAGE_TYPE':
+                return Object.assign(
+                        {},
+                        state,
+                        {messagetype: action.messagetype}
+                );
+            case 'ROLLBACK':
+                //ES5
+                return Object.assign(
+                        {},
+                        state,
+                        {value: state.cachedValue}
+                );
+            case 'INCREMENT':
+                //ES5
+                return Object.assign(
+                        {},
+                        state,
+                        {value: state.value +1},
+                        {cachedValue: state.value}
+                );
+            case 'DECREMENT':
+                return Object.assign(
+                        {},
+                        state,
+                        {value: state.value -1},
+                        {cachedValue: state.value}
+                );
+            case 'LOAD_START':
+                return Object.assign(
+                        {},
+                        state,
+                        {loading: true}
+                );
+            case 'LOAD_FINISHED':
+                return Object.assign(
+                        {},
+                        state,
+                        {loading: false},
+                        {approvalString: action.approvalString}
+                );
+            case 'INCREMENT_INIT':
+                return Object.assign(
+                        {},
+                        state,
+                        {clicks: state.clicks + '+'} //,
+                );
+            case 'DECREMENT_INIT':
+                return Object.assign(
+                        {},
+                        state,
+                        {clicks: state.clicks + '-'} //,
+                );
+            default:
+                return state
+        }
+    };
+
+    const createSagaMiddleware = ReduxSaga.default;
+
+    const monitor = {
+        effectTriggered: (e)=>{},
+        effectResolved: (e)=>{},
+        effectRejected: (e)=>{},
+        registerEffectTriggered: function(cb){
+            this.effectTriggered = cb;
+        },
+        registerEffectRejected: function(cb){
+            this.effectRejected = cb;
+        },
+        registerEffectResolved: function(cb){
+            this.effectResolved = cb;
+        }
+    };
+
+    const sagaMiddleware = createSagaMiddleware({sagaMonitor: monitor});
+
+    const effects = ReduxSaga.effects;
+
+    let composed;
+    if(window.__REDUX_DEVTOOLS_EXTENSION__) {
+        composed = Redux.compose(
+                Redux.applyMiddleware(sagaMiddleware),
+                window.__REDUX_DEVTOOLS_EXTENSION__()
+        )
+    } else{
+        composed = Redux.compose(
+                Redux.applyMiddleware(sagaMiddleware)
+        )
+    }
+
+    const store = Redux.createStore(
+            reducer,
+            undefined,
+            composed
+    );
+
+    const ReduxBehavior = PolymerRedux(store);
+
+    Polymer({
+        is: 'my-app',
+        behaviors: [ ReduxBehavior ],
+        properties: {
+            count: {
+                type: Number,
+                statePath: 'value'
+            },
+            clicks: {
+                type: String,
+                statePath: 'clicks'
+            },
+            loading: {
+                type: Boolean,
+                statePath: 'loading'
+            },
+            approvalString: {
+                type: String,
+                statePath: 'approvalString'
+            },
+            messagetype: {
+                type: String,
+                statePath: 'messagetype'
+            }
+        },
+        actions: {
+            increment: function(){
+                return { type: 'INCREMENT_INIT' };
+            },
+            decrement: function(){
+                return { type: 'DECREMENT_INIT' };
+            },
+            reset: function(){
+                return { type: 'RESET' };
+            },
+            logout: function(){
+                return { type: 'LOGOUT' };
+            },
+            login: function(){
+                return { type: 'LOGIN' };
+            }
+        },
+        onPlusClick: function(){
+            this.dispatch('increment');
+        },
+        onMinusClick: function(){
+            this.dispatch('decrement');
+        },
+        onResetClick: function(){
+            this.dispatch('reset');
+        },
+        onLogoutClick: function(){
+            this.dispatch('logout');
+        },
+        onLoginClick(){
+            this.dispatch('login');
+        },
+//        slideUI(e){
+//            try{
+//                e.preventDefault();
+//                e.preventBubble();
+//            }catch(e){
+//                console.error(e);
+//            }
+//            this.slideConsole(e);
+//        },
+        slideConsole(e){
+            console.log(e);
+
+//            if (e.ctrlKey) return;
+
+            if(e.ctrlKey){
+                e.preventDefault();
+                let currentZoom = Number($('.sagaConsoleInner').css('zoom'));
+                console.log('0', currentZoom);
+
+                let delta = e.deltaY > 0 ? -.1 : .1;
+                console.log('delta', delta);
+
+                let newZoom = currentZoom + delta;
+                console.log('1', currentZoom);
+
+
+                newZoom > 2 ? newZoom = 2 : (newZoom < .1 ? newZoom  = .1 : null);
+                console.log('2', currentZoom);
+
+                $('.sagaConsoleInner').css('zoom', newZoom);
+
+                return;
+            }
+
+            if(e.altKey){
+                e.preventDefault();
+                var f = $(".sagaConsole").width() / $('.sagaConsole').parent().width() * 100;
+
+                $('.sagaConsole').width($('.sagaConsole').width()-e.deltaY)
+
+
+                let bodyWidth = $('body').width();
+
+                let consoleWidth = $('.sagaConsole').width();
+
+                consoleWidth > bodyWidth-100 ? $('.sagaConsole').width(bodyWidth-100) : null ;
+                consoleWidth < (bodyWidth/3) ? $('.sagaConsole').width(bodyWidth/3) : null;
+
+            }
+
+
+
+        },
+        attached(){
+
+            // run all sagas attributed 'autoStart'
+
+            $(this).find('[autoStart]').each(
+
+                (i,sagaToBeStarted)=>{
+                     sagaMiddleware.run(sagaToBeStarted.getSaga());
+                })
+        }
+    });
+
+
+
+</script>

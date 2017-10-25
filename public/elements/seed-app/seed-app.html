@@ -19,6 +19,8 @@
 <link rel="import" href="../../bower_components/px-icon-set/px-icon.html">
 <link rel="import" href="../../bower_components/px-icon-set/px-icon-set.html">
 
+<link rel="import" href="../../components/my-app/my-app.html">
+
 <dom-module id="seed-app">
   <template>
 
@@ -30,7 +32,9 @@
     <div class="viewport">
       <app-location
         route="{{route}}"
-        use-hash-as-path>
+        use-hash-as-path
+      vertical
+      >
       </app-location>
       <px-app-route
         id="starterAppRoute"

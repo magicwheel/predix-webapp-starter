@@ -1,0 +1,182 @@
+<link rel="stylesheet" href="/predix.css">
+<!-- Imports polymer -->
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/px-key-value-pair/px-key-value-pair.html" />
+<link rel="import" href="/bower_components/px-alert-label/px-alert-label.html" />
+<link rel="import" href="/bower_components/px-modal/px-modal.html" />
+<link rel="import" href="/bower_components/px-view-header/px-view-header.html" />
+<link rel="import" href="/bower_components/polymer-redux/polymer-redux.html" />
+
+<link rel="import" href="/bower_components/px-branding-bar/px-branding-bar.html" />
+
+<link rel="stylesheet" href="/predix.css">
+
+<style type="text/css">
+    @font-face {
+        font-family: 'CabinSketch-Regular';
+        src: url('/fonts/CabinSketch-Regular.ttf');
+        src: url('/fonts/CabinSketch-Regular.ttf') format('embedded-opentype'),
+        url('/fonts/CabinSketch-Regular.ttf') format('woff'),
+        url('/fonts/CabinSketch-Regular.ttf') format('truetype'),
+        url('/fonts/CabinSketch-Regular.ttf') format('svg');
+    }
+
+    @font-face {
+        font-family: 'Digital_tech';
+        src: url('/fonts/Digital_tech.otf');
+        /*src: url('/fonts/CabinSketch-Regular.ttf') format('embedded-opentype'),*/
+        /*url('/fonts/CabinSketch-Regular.ttf') format('woff'),*/
+        /*url('/fonts/CabinSketch-Regular.ttf') format('truetype'),*/
+        /*url('/fonts/CabinSketch-Regular.ttf') format('svg');*/
+    }
+
+    @font-face {
+        font-family: 'Gunny Rewritten';
+        src: url('/fonts/gnyrwn971.ttf');
+        src: url('/fonts/gnyrwn971.ttf') format('embedded-opentype'),
+        url('/fonts/gnyrwn971.ttf') format('woff'),
+        url('/fonts/gnyrwn971.ttf') format('truetype'),
+        url('/fonts/gnyrwn971.ttf') format('svg');
+    }
+
+</style>
+
+<script
+        src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+
+<!-- Defines element markup -->
+<dom-module id="my-ui">
+    <template>
+        <style>
+            .px-key-value-pair-wrapper{
+                /*left: 50%;*/
+                /*position: relative;*/
+                /*margin-left: -74px;*/
+                /*padding:20px;*/
+            margin:20px;
+            }
+            .counterButtons{
+                margin:10px;
+            }
+            .counterButtons button{
+                width: 130px;
+                height: 30px;
+                margin: 7px;
+            }
+            px-alert-label {
+                zoom: 2;
+            }
+            .aboutButton {
+                top: -43px;
+                left: 160px;
+                position: relative;
+            }
+            .clicks{
+                font-size: 40px;
+                color: lightslategray;
+                margin-left: 10px;
+            }
+
+        </style>
+
+        <!--<px-view-header-->
+                <!--title="Predix Redux-Saga Integration"-->
+                <!--subtitle="With an improvised Saga monitor"-->
+                <!--on-click="toggleSagaConsole()"-->
+        <!--&gt;-->
+
+        </px-view-header>
+
+
+            <div class="counterButtons">
+                <px-key-value-pair
+                        key="CURRENT COUNT:"
+                        value={{count}}
+                        uom=""
+                        size="alpha">
+                </px-key-value-pair>
+                <button class="btn btn--small" disabled$="{{loading}}" on-tap="onMinusClick">-</button>
+                <button class="btn btn--small" disabled$="{{loading}}" on-tap="onPlusClick">+</button>
+                <button class="btn btn--small" disabled$="{{loading}}" on-tap="onResetClick">RESET</button>
+                <button class="btn btn--small" on-tap="onLogoutClick">LOGOUT</button>
+                <button class="btn btn--small" on-tap="onLoginClick">LOGIN</button>
+
+            </div>
+        <!--</div>-->
+        <div style="margin-left: 10px">
+            <px-alert-label
+                    label={{message}}
+                    type={{messagetype}}
+            >
+
+            </px-alert-label>
+        </div>
+        <div class='clicks'>
+            {{clicks}}
+
+        </div>
+
+
+
+
+        </div>
+
+    </template>
+</dom-module>
+
+<!-- Registers custom element -->
+<script>
+    Polymer({
+        is: 'my-ui',
+        properties: {
+            count: {
+                type: Number,
+                readOnly: false,
+                notify: true
+            },
+            clicks: {
+                type: String,
+                readOnly: false,
+                notify: true
+            },
+            loading: {
+                type: Boolean,
+                readOnly: false,
+                notify: true
+            },
+            message: {
+                type: String,
+                readOnly: false,
+                notify: true
+            },
+            messagetype: {
+                type: String,
+                readOnly: false,
+                notify: true
+            }
+        },
+
+
+        onPlusClick: function(){
+            this.dispatchEvent(new CustomEvent('plus'));
+        },
+        onMinusClick: function(){
+            this.dispatchEvent(new CustomEvent('minus'));
+        },
+        toggleSagaConsole: function(){
+            $('.sagaConsole').hide('slide', {direction: 'right'}, 1000)
+        },
+        onResetClick: function(){
+            this.dispatchEvent(new CustomEvent('reset'));
+        },
+        onLogoutClick: function(){
+            this.dispatchEvent(new CustomEvent('logout'));
+        },
+        onLoginClick: function(){
+            this.dispatchEvent(new CustomEvent('login'));
+        }
+    });
+
+</script>

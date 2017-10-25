@@ -1,0 +1,109 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/components/my-api/my-api.html" />
+
+<link rel="stylesheet" href="my-saga.css">
+
+<dom-module id="my-saga">
+    <template>
+        <div class="saga" style="background-color: {{bgcolor}}; ">
+
+
+            <!--header-->
+            <div class="header">
+                <div class="top">
+
+                    <div class="name">&lt;my-saga-{{name}}&gt;</div>
+                    <div class="status">
+                        {{statusText}}
+                    </div>
+
+                    <!--<px-chip-->
+                            <!--content="Some text here"-->
+                            <!--icon="px-utl:close">-->
+                    <!--</px-chip>-->
+                </div>
+                <div class="desc">{{desc}}</div>
+
+            </div>
+
+            <!--children, including child sagas-->
+            <div class="children">
+                <content></content>
+            </div>
+
+            <!--&lt;!&ndash;header&ndash;&gt;-->
+            <!--<div class=header">-->
+                <!--<span class="name">&lt;my-saga-{{name}}&gt;</span>-->
+                <!--<br><span class="desc"> {{desc}}</span>-->
+            <!--</div>-->
+
+            <!--&lt;!&ndash;children, including child sagas&ndash;&gt;-->
+            <!--<div class="children">-->
+                <!--<content></content>-->
+            <!--</div>-->
+            <!--<span class="status">{{statusText}}</span>-->
+
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'my-saga',
+        properties: {
+            desc: {
+                type: String,
+                readOnly: false,
+                notify: true,
+                value: 'NO DESC'
+            },
+            name: {
+                type: String,
+                readOnly: false,
+                notify: true,
+                value: 'NO NAME'
+            },
+            statusText: {
+                type: String,
+                readOnly: false,
+                notify: true,
+                value: 'Initialized'
+            }
+        },
+
+        getSaga: function(){
+            // I have an only child with a 'saga' attribute
+            // todo: make us one
+            const saga = $(this).find('[saga]')[0].getSaga();
+
+            return saga;
+        },
+        updateStatusOnTaskDone: function(CHILD_TASK){
+            const child = this;
+            CHILD_TASK.done.then(function(e){
+                child.setStatus(e.toString(), 'white');
+            });
+        },
+
+        setStatus: function(text, colorCode){
+            const child = this;
+
+            console.log('SET STATUS:', text);
+            this.statusText = text;
+            $(this).children('.saga').attr('color',colorCode);
+        },
+
+        created: function(){
+            let me = this;
+
+            monitor.registerEffectResolved(function(taskId, task){
+                // on effect resolved
+            });
+            monitor.registerEffectRejected(function(taskId, task){
+                // on effect rejected
+                console.log('monitor.registerEffectRejected: task: ', task);
+            });
+        }
+    });
+
+</script>

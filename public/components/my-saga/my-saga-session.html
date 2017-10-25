@@ -1,0 +1,75 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/components/my-api/my-api.html" />
+<link rel="stylesheet" href="/predix.css">
+
+<!-- Defines element markup -->
+<dom-module id="my-saga-session">
+    <template>
+        <content></content>
+    </template>
+</dom-module>
+
+<!-- Registers custom element -->
+<script>
+    Polymer({
+        is: 'my-saga-session',
+
+        getSaga: function() {
+            const that = this;
+            const sagaParent = $(that).closest('my-saga')[0];
+
+            // SAGAS HAVE STATE!!! - - - And therefore are not using the store
+            // When the store is reset, the state of the sagas remain!!!
+            let activeTasks = [];
+
+            return function* manageSession() {
+                while (true) {
+                    sagaParent.setStatus("Waiting for login requests" , 'red');
+                    yield ReduxSaga.effects.take('LOGIN')
+                    sagaParent.setStatus("Login initialized" , 'yellow');
+
+                    yield ReduxSaga.effects.put({type: 'LOGIN_SUCCESS'})
+                    sagaParent.setStatus("Logged in. Starting child sagas" , 'yellow');
+
+                    // get all child sagas
+                    const sagas = $(that).find('[saga]');
+
+                    //Iterate SYNCHRONOUSLY (as YIELD can not be called from a function)
+                    for (let i=0; i<sagas.length;i++){
+                        var deferred = Q.defer();
+
+                        // fork the child (start and not wait for it)
+                        const task = yield ReduxSaga.effects.fork($(that).find('[saga]')[i].getSaga(deferred.promise));
+
+                        // give the child a pointer to the task you just started using his code
+                        deferred.resolve(task);
+
+                        // log when the child terminates
+                        task.done.then(r=>console.log('TASK RETURNED: ' + r.toString())).catch(e=>console.log('TASK REJECTED: ' + e.toString()))
+
+                        // keep task in order to terminate it on logout (and disable its functionality e.g. update, reset)
+                        activeTasks.push(task);
+                    }
+
+                    sagaParent.setStatus("Waiting for a LOGOUT request" , 'green');
+
+                    // wait for logout
+                    yield ReduxSaga.effects.take('LOGOUT')
+
+                    // kill all children (Iterate SYNCHRONOUSLY as YIELD can not be called from a function)
+                    for (var i = 0, len = activeTasks.length; i < len; i++) {
+                        yield ReduxSaga.effects.cancel(activeTasks[i]);
+                    }
+
+                    // clear children list
+                    activeTasks = [];
+
+                    // status logged out
+                    sagaParent.setStatus("LOGGED OUT" , 'red');
+                }
+            }
+        }
+    });
+
+</script>
+

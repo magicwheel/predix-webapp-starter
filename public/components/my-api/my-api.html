@@ -1,0 +1,83 @@
+<!-- Imports polymer -->
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="stylesheet" href="my-api.css">
+<link rel="stylesheet" href="/predix.css">
+
+<!-- Defines element markup -->
+<dom-module id="my-api">
+	<template>
+		<div class="apiItem is_blink_me" style="background-color: {{bgcolor}}">
+			<!--header-->
+			<div class=header">
+				<div class="top">
+					<div class="name">&lt;my-api-{{name}}&gt;</div>
+					<div class="status">
+						type:{{type}} limit:{{limit}} - {{statusText}}
+					</div>
+				</div>
+				<div class="desc">Min Max Limiter{{desc}}</div>
+				<!--children, including child sagas-->
+				<div class="children">
+					<content></content>
+				</div>
+			</div>
+		</div>
+	</template>
+</dom-module>
+
+<!-- Registers custom element -->
+<script>
+
+	let that = this;
+	Polymer({
+		is: 'my-api',
+		properties: {
+			limit: {
+				type: String,
+				readOnly: false,
+				notify: true,
+				reflectToAttribute: true
+			},
+			bgcolor: {
+				type: Object,
+				readOnly: false,
+				notify: true,
+				value: '#ffff82'
+			},
+			type: {
+				type: String,
+				readOnly: false,
+				notify: true,
+				value: 'max' //max|min
+			}
+		},
+		created:function(){
+			that = this;
+		},
+
+		signCounterChange: function(x){
+			var that = this;
+
+			return Q.Promise(function(resolve, reject){
+				setTimeout(function(){
+					if (that.type == "max" && x <= that.limit || that.type == "min" && x >= that.limit){
+						that.bgcolor = 'green';
+						that.statusText = x + ' - APPROVED: ' + Date();
+						resolve (x + ' - APPROVED: ' + Date());
+
+						$(that).find('.is_blink_me').removeClass('blink_me')
+					} else{
+						$(that).find('.is_blink_me').addClass('blink_me')
+						that.bgcolor = 'red !important';
+
+						const err = x + ' - REJECTED - ' +  (that.type == 'max' ? 'BIGGER' : 'SMALLER') + ' THEN ' + that.limit + ' : ' + Date();
+						that.statusText = err;
+						reject(err);
+					}
+
+				}, 300);
+			});
+		}
+	});
+
+</script>

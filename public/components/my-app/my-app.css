@@ -1,0 +1,39 @@
+.sagaConsole{
+    width: 33%;
+    /*display: none;*/
+    float: right;
+    /*position: fixed;*/
+    right: 0;
+    height: 100%;
+    background-size: 460px;
+    padding: 0;
+    z-index: 100;
+    transition: width .1s ease;
+
+    overflow-y: auto;
+
+    float: right;
+    opacity: 1;
+    background: none;
+    position: initial;
+    float: right;
+    clear: both;
+}
+.sagaConsoleInner{
+    min-height: 100%;
+    /*box-shadow: 0 7px 39px -1px black;*/
+    background-image: url(/images/paperEngineerOP45.png);
+    background-size: 460px;
+    margin: 0;
+    padding: 2px;
+    /*margin-left: 3%;*/
+    background-color: white;
+}
+
+#session > .saga{
+    /*height: 100%;*/
+}
+
+#UI{
+    width:70%;
+}

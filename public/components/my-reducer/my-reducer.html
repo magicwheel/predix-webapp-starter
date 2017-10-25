@@ -1,0 +1,72 @@
+<!-- Imports polymer -->
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+	<!-- Defines element markup -->
+<dom-module id="my-reducer">
+	<template>
+	MY_REDUCER
+	</template>
+	</dom-module>
+
+	<!-- Registers custom element -->
+<script>
+
+Polymer({
+	is: 'my-reducer',
+	properties: {
+		effects: {
+			type: Object,
+			readOnly: false,
+			notify: true
+		}
+	},
+
+
+	reducer: function(state, action){
+		if (state === undefined) state = {
+			value: 0,
+			clicks: '>',
+			loading: false,
+			approvalString: "-"
+		};
+
+		switch (action.type) {
+			case 'INCREMENT':
+				//ES5
+				return Object.assign(
+						{},
+						state,
+						{value: state.value +1},
+						{clicks: state.clicks + '+'} //,
+//                        {loading: true}
+				);
+			case 'DECREMENT':
+				return Object.assign(
+						{},
+						state,
+						{value: state.value -1},
+						{clicks: state.clicks + '-'}
+				);
+			case 'LOAD_START':
+				return Object.assign(
+						{},
+						state,
+						{loading: true}
+				);
+			case 'LOAD_FINISHED':
+				return Object.assign(
+						{},
+						state,
+						{loading: false},
+						{approvalString: action.approvalString}
+				);
+			case 'INCREMENT_INIT':
+			case 'DECREMENT_INIT':
+			default:
+				return state
+		}
+	}
+
+});
+
+</script>
