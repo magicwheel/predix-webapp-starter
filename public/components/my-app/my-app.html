@@ -9,7 +9,7 @@
     //</editor-fold>
 
 <!-- Defines element markup -->
-<dom-module id="my-app" style="background-color: red">
+<dom-module id="my-app" style="background-color: red" >
     <template>
         <link rel="stylesheet" href="my-app.css">
 
@@ -46,7 +46,7 @@
         <!--/////////////////////////////////////////-->
         <!--// UI-->
         <!--/////////////////////////////////////////-->
-        <px-card id="UI" on-wheel=slideConsole>
+        <px-card id="UI" e>
 
             <my-ui
 
@@ -257,6 +257,12 @@
 
 //            if (e.ctrlKey) return;
 
+
+
+            //
+            // CTRL - zoom
+            //
+
             if(e.ctrlKey){
                 e.preventDefault();
                 let currentZoom = Number($('.sagaConsoleInner').css('zoom'));
@@ -277,6 +283,10 @@
                 return;
             }
 
+            //
+            //  ALT - slide
+            //
+
             if(e.altKey){
                 e.preventDefault();
                 var f = $(".sagaConsole").width() / $('.sagaConsole').parent().width() * 100;
@@ -288,9 +298,10 @@
 
                 let consoleWidth = $('.sagaConsole').width();
 
-                consoleWidth > bodyWidth-100 ? $('.sagaConsole').width(bodyWidth-100) : null ;
+                consoleWidth > bodyWidth-200 ? $('.sagaConsole').width(bodyWidth-200) : null ;
                 consoleWidth < (bodyWidth/3) ? $('.sagaConsole').width(bodyWidth/3) : null;
 
+                $('#UI').width(bodyWidth - $('.sagaConsole').width())
             }
 
 
