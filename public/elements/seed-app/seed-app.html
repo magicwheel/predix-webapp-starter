@@ -17,6 +17,7 @@
 
 <!-- importing icons here, to fix icon flickering problem when loading asynchronously. -->
 <link rel="import" href="../../bower_components/px-icon-set/px-icon.html">
+<link rel="import" href="../../bower_components/px-chip/px-chip.html">
 <link rel="import" href="../../bower_components/px-icon-set/px-icon-set.html">
 
 <link rel="import" href="../../components/my-app/my-app.html">
@@ -53,11 +54,20 @@
           </px-app-nav>
         </div>
         <div class="u-1/1-palm">
+          <px-chip class="flex flex--row flex--right"
+                   style="margin: 20px 40px 0 -40px"
+                   content="Show Saga console"
+                   icon="px-utl:app-settings"
+                   show-icon>
+          </px-chip>
+        </div>
+
+        <div class="u-1/1-palm">
           <div class="flex flex--row flex--right">
             <px-login class="u-pr u-pt"></px-login>
           </div>
         </div>
-      </div>
+             </div>
 
       <main role="main">
         <px-view id="view" element-href="{{getHref(navRoute)}}" active load-async></px-view>
@@ -93,11 +103,16 @@
           type: Array,
           value: function() {
             return [
-              {
-                "label": "Asset Monitoring",
-                "id": "rmd",
-                "icon": "px-fea:analytics"
-              },
+                {
+                    "label": "Tick Tack Tow",
+                    "id": "rmd",
+                    "icon": "px-obj:solar-panel"
+                },
+                {
+                    "label": "Optimistic update",
+                    "id": "rmd",
+                    "icon": "px-utl:clock"
+                },
               {
                 "label": "About",
                 "id": "about",

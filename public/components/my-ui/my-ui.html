@@ -2,7 +2,7 @@
 <!-- Imports polymer -->
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/px-key-value-pair/px-key-value-pair.html" />
-<link rel="import" href="/bower_components/px-alert-label/px-alert-label.html" />
+<link rel="import" href="/bower_components/px-alert-message/px-alert-message.html" />
 <link rel="import" href="/bower_components/px-modal/px-modal.html" />
 <link rel="import" href="/bower_components/px-view-header/px-view-header.html" />
 <link rel="import" href="/bower_components/polymer-redux/polymer-redux.html" />
@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/predix.css">
 
 <style type="text/css">
+
     @font-face {
         font-family: 'CabinSketch-Regular';
         src: url('/fonts/CabinSketch-Regular.ttf');
@@ -97,8 +98,8 @@
                         uom=""
                         size="alpha">
                 </px-key-value-pair>
-                <button class="btn btn--small" disabled$="{{loading}}" on-tap="onMinusClick">-</button>
-                <button class="btn btn--small" disabled$="{{loading}}" on-tap="onPlusClick">+</button>
+                <button icon="px-utl:app-settings" class="btn btn--small" disabled$="{{loading}}" on-tap="onMinusClick">-</button>
+                <button icon="px-utl:app-settings" class="btn btn--small" disabled$="{{loading}}" on-tap="onPlusClick">+</button>
                 <button class="btn btn--small" disabled$="{{loading}}" on-tap="onResetClick">RESET</button>
                 <button class="btn btn--small" on-tap="onLogoutClick">LOGOUT</button>
                 <button class="btn btn--small" on-tap="onLoginClick">LOGIN</button>
@@ -106,14 +107,18 @@
             </div>
         <!--</div>-->
         <div style="margin-left: 10px">
-            <px-alert-label
-                    label={{message}}
+            <px-alert-message
+                    message={{message}}
                     type={{messagetype}}
+                    hide-severity
             >
 
-            </px-alert-label>
+            </px-alert-message>
         </div>
         <div class='clicks'>
+
+            <!--<px-icon icon="px-utl:add" style="zoom:2; color: #b8b8b8"></px-icon>-->
+
             {{clicks}}
 
         </div>

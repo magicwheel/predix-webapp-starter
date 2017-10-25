@@ -268,7 +268,7 @@
                 let currentZoom = Number($('.sagaConsoleInner').css('zoom'));
                 console.log('0', currentZoom);
 
-                let delta = e.deltaY > 0 ? -.1 : .1;
+                let delta = e.deltaY > 0 ? -.01 : .01;
                 console.log('delta', delta);
 
                 let newZoom = currentZoom + delta;

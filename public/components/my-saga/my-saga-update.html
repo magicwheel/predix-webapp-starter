@@ -77,7 +77,7 @@
                     yield ReduxSaga.effects.put({type: 'ROLLBACK'})
 
                     // alert
-                    yield ReduxSaga.effects.put({type: 'SET_MESSAGE_TYPE', messagetype: 'alert'})
+                    yield ReduxSaga.effects.put({type: 'SET_MESSAGE_TYPE', messagetype: 'important'})
                     yield ReduxSaga.effects.put({type: 'LOAD_FINISHED', approvalString: e})
 
                     sagaParent.setStatus("Failed action: " + ACTION_TYPE, 'red');
