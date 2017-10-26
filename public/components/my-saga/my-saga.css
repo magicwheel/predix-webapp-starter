@@ -14,18 +14,18 @@
     font-size: 19px;
 }
 
-.sagaConsole:hover .saga { font-size: 0px; }
-.sagaConsole:hover .saga .desc { font-size: 27px; }
+/*.sagaConsole:hover .saga { font-size: 0px; }*/
+/*.sagaConsole:hover .saga .desc { font-size: 27px; }*/
 
-.saga:hover{
-    font-size: 18px !important;
-}
+/*.saga:hover{*/
+    /*font-size: 18px !important;*/
+/*}*/
 
 .desc{
     /*font-size: 20px;*/
-    font-size: 0px;
+    /*font-size: 0px;*/
     display: inline-flex;
-    font-family: 'Gunny Rewritten';
+    /*font-family: 'Gunny Rewritten';*/
     text-align: center;
     color: #000095;
     font-style: italic;
@@ -103,31 +103,31 @@
 
 
 
-@font-face {
-    font-family: 'CabinSketch-Regular';
-    src: url('/fonts/CabinSketch-Regular.ttf');
-    src: url('/fonts/CabinSketch-Regular.ttf') format('embedded-opentype'),
-    url('/fonts/CabinSketch-Regular.ttf') format('woff'),
-    url('/fonts/CabinSketch-Regular.ttf') format('truetype'),
-    url('/fonts/CabinSketch-Regular.ttf') format('svg');
-}
-
-@font-face {
-    font-family: 'Digital_tech';
-    src: url('/fonts/Digital_tech.otf');
+/*@font-face {*/
+    /*font-family: 'CabinSketch-Regular';*/
+    /*src: url('/fonts/CabinSketch-Regular.ttf');*/
     /*src: url('/fonts/CabinSketch-Regular.ttf') format('embedded-opentype'),*/
     /*url('/fonts/CabinSketch-Regular.ttf') format('woff'),*/
     /*url('/fonts/CabinSketch-Regular.ttf') format('truetype'),*/
     /*url('/fonts/CabinSketch-Regular.ttf') format('svg');*/
-}
-
-@font-face {
-    font-family: 'Gunny Rewritten';
-    src: url('/fonts/gnyrwn971.ttf');
-    src: url('/fonts/gnyrwn971.ttf') format('embedded-opentype'),
-    url('/fonts/gnyrwn971.ttf') format('woff'),
-    url('/fonts/gnyrwn971.ttf') format('truetype'),
-    url('/fonts/gnyrwn971.ttf') format('svg');
-}
+/*}*/
+/**/
+/*@font-face {*/
+    /*font-family: 'Digital_tech';*/
+    /*src: url('/fonts/Digital_tech.otf');*/
+    src: url('/fonts/CabinSketch-Regular.ttf') format('embedded-opentype'),
+    url('/fonts/CabinSketch-Regular.ttf') format('woff'),
+    url('/fonts/CabinSketch-Regular.ttf') format('truetype'),
+    url('/fonts/CabinSketch-Regular.ttf') format('svg');
+/*}*/
+/**/
+/*@font-face {*/
+    /*font-family: 'Gunny Rewritten';*/
+    /*src: url('/fonts/gnyrwn971.ttf');*/
+    /*src: url('/fonts/gnyrwn971.ttf') format('embedded-opentype'),*/
+    /*url('/fonts/gnyrwn971.ttf') format('woff'),*/
+    /*url('/fonts/gnyrwn971.ttf') format('truetype'),*/
+    /*url('/fonts/gnyrwn971.ttf') format('svg');*/
+/*}*/
 
 
