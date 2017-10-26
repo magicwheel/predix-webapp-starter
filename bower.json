@@ -34,7 +34,8 @@
     "px-breadcrumbs": "^1.0.5",
     "px-branding-bar": "^1.0.6",
     "px-key-value-pair": "^1.1.2",
-    "iron-resizable-behavior": "^2.0.1"
+    "iron-resizable-behavior": "^2.0.1",
+    "polymer-dragula": "*"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",

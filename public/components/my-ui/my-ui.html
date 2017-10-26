@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="/predix.css">
 <!-- Imports polymer -->
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/px-key-value-pair/px-key-value-pair.html" />
@@ -6,6 +5,7 @@
 <link rel="import" href="/bower_components/px-modal/px-modal.html" />
 <link rel="import" href="/bower_components/px-view-header/px-view-header.html" />
 <link rel="import" href="/bower_components/polymer-redux/polymer-redux.html" />
+<link rel="import" href="/bower_components/polymer-dragula/polymer-dragula.html" />
 
 <link rel="import" href="/bower_components/px-branding-bar/px-branding-bar.html" />
 
@@ -80,6 +80,36 @@
                 margin-left: 10px;
             }
 
+
+
+
+
+
+
+            .group {
+                display: flex;
+                flex-wrap: wrap;
+                width:150px;
+            }
+            .item {
+                height: 40px;
+                width: 40px;
+                background-color: #09F;
+                margin: 5px;
+                position: relative;
+            }
+            .itemTitle {
+                position: absolute;
+                left: 10px;
+                bottom: 10px;
+                color: #FFF;
+            }
+            .item:hover {
+                cursor: pointer;
+                transform: scale(1.025);
+                background-color: #333;
+            }
+
         </style>
 
         <!--<px-view-header-->
@@ -91,7 +121,28 @@
         </px-view-header>
 
 
-            <div class="counterButtons">
+
+
+
+        <div class="group">
+            <div class="item"><span class="itemTitle">Title</span></div>
+            <div class="item"><span class="itemTitle">Title</span></div>
+            <div class="item"><span class="itemTitle">Title</span></div>
+            <div class="item"><span class="itemTitle">Title</span></div>
+            <div class="item"><span class="itemTitle">Title</span></div>
+            <div class="item"><span class="itemTitle">Title</span></div>
+            <div class="item"><span class="itemTitle">Title</span></div>
+            <div class="item"><span class="itemTitle">Title</span></div>
+            <div class="item"><span class="itemTitle">Title</span></div>
+        </div>
+
+
+
+
+
+
+        <polymer-dragula>
+             <div class="counterButtons">
                 <px-key-value-pair
                         key="CURRENT COUNT:"
                         value={{count}}
@@ -123,6 +174,7 @@
 
         </div>
 
+        </polymer-dragula>
 
 
 

@@ -1,1 +1,1 @@
-A Redux-Saga console embedded in a predix Saga application
+A Redux-Saga console embedded in a Predix Saga application

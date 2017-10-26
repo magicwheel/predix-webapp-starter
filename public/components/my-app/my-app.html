@@ -25,6 +25,7 @@
                          desc="Manage login and logout">
 
                     <my-saga-session saga autoStart>
+                        <polymer-dragula>
 
                         <my-saga id="update"
                                  name="update"
@@ -36,9 +37,11 @@
                                  name="reset"
                                  desc="Reset counter after 3 minus clicks">
                             <my-saga-reset saga>
+                        </polymer-dragula>
 
                     </my-saga-session>
                 </my-saga>
+
             </div>
         </div>
 
@@ -58,14 +61,14 @@
                    on-plus="onPlusClick"
                    on-minus="onMinusClick"
                    on-reset="onResetClick"
-                   on-logout="onLogoutClick"
-                   on-login="onLoginClick"
             >
             </my-ui>
 
         </px-card>
         </div>
 
+        on-logout="onLogoutClick"
+        on-login="onLoginClick"
         <!--<my-reducer id="reducer"></my-reducer>-->
     </template>
 </dom-module>
@@ -252,31 +255,43 @@
 //            }
 //            this.slideConsole(e);
 //        },
+
         slideConsole(e){
-            console.log(e);
-
-//            if (e.ctrlKey) return;
-
-
 
             //
             // CTRL - zoom
             //
 
             if(e.ctrlKey){
+
                 e.preventDefault();
                 let currentZoom = Number($('.sagaConsoleInner').css('zoom'));
-                console.log('0', currentZoom);
 
                 let delta = e.deltaY > 0 ? -.01 : .01;
-                console.log('delta', delta);
 
                 let newZoom = currentZoom + delta;
-                console.log('1', currentZoom);
 
 
                 newZoom > 2 ? newZoom = 2 : (newZoom < .1 ? newZoom  = .1 : null);
-                console.log('2', currentZoom);
+
+                $('.sagaConsoleInner').css('zoom', newZoom);
+
+                return;
+            }
+
+            //
+            // SHIFT - zoom
+            //
+
+            if(e.shiftKey){
+                e.preventDefault();
+                let currentZoom = Number($('.sagaConsoleInner').css('zoom'));
+
+                let delta = e.deltaX > 0 ? -.1 : .1;
+
+                let newZoom = currentZoom + delta;
+
+                newZoom > 2 ? newZoom = 2 : (newZoom < .1 ? newZoom  = .1 : null);
 
                 $('.sagaConsoleInner').css('zoom', newZoom);
 
@@ -289,19 +304,22 @@
 
             if(e.altKey){
                 e.preventDefault();
-                var f = $(".sagaConsole").width() / $('.sagaConsole').parent().width() * 100;
 
-                $('.sagaConsole').width($('.sagaConsole').width()-e.deltaY)
-
+                let newConsoleWidth = $('.sagaConsole').width()-e.deltaY;
 
                 let bodyWidth = $('body').width();
 
+                newConsoleWidth > bodyWidth-200 ? newConsoleWidth = bodyWidth-200 : null ;
+                newConsoleWidth < (bodyWidth/3) ? newConsoleWidth = bodyWidth/3 : null;
+
+                $('.sagaConsole').width(newConsoleWidth);
+
+
                 let consoleWidth = $('.sagaConsole').width();
 
-                consoleWidth > bodyWidth-200 ? $('.sagaConsole').width(bodyWidth-200) : null ;
-                consoleWidth < (bodyWidth/3) ? $('.sagaConsole').width(bodyWidth/3) : null;
+                const newUIWidth = bodyWidth - consoleWidth;
 
-                $('#UI').width(bodyWidth - $('.sagaConsole').width())
+                $('#UI').width(newUIWidth);
             }
 
 
