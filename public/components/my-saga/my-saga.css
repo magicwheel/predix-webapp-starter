@@ -46,9 +46,17 @@
     background-color: rgba(0, 255, 0, 0.32) !important;
 }
 [color='red'] {
-    background-color: rgba(255, 0, 0, 0.28) !important;
+    background-color: rgba(255, 0, 0, 0.28);
+}
+#session > .saga[color='red'] {
+    background-color: rgb(242, 195, 193) !important;
+}
+#session > .saga[color='green'] {
+    background-color: rgb(101, 176, 121) !important;
 }
 
+
+rgb(242, 195, 193) !important
 .header{
     /*font-size: 16px;*/
     min-height: 50px;

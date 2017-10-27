@@ -26,7 +26,8 @@
     background-size: 460px;
     margin: 0;
     padding: 2px;
-    background-color: #e8ffff;
+    background-color: #2b3047;
+    border-left: .1px solid #5f5a3e;
 }
 
 #session > .saga{
