@@ -1,0 +1,46 @@
+<link rel="import" href="/bower_components/polymer/polymer.html" />
+
+<dom-module id="my-component-header">
+    <template>
+        <div class="header">
+            <div class="top">
+
+                <div class="name">{{name}}</div>
+                <div class="status">
+                    {{statusText}}
+                </div>
+
+                <div class="desc">{{desc}}</div>
+
+            </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'my-component-header',
+        properties: {
+            desc: {
+                type: String,
+                readOnly: false,
+                notify: true,
+                value: 'NO DESC'
+            },
+            name: {
+                type: String,
+                readOnly: false,
+                notify: true,
+                value: 'NO NAME'
+            },
+            statusText: {
+                type: String,
+                readOnly: false,
+                notify: true,
+                value: 'Initialized'
+            }
+        },
+
+
+    });
+
+</script>
