@@ -1,0 +1,27 @@
+.header{
+    min-height: 50px;
+    padding-top: 7px;
+}
+
+.name{
+    font-weight: bold;
+    margin: 0px 9px 0px 0px;
+    float: left;
+}
+
+.status{
+    float: right;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.44);
+    padding: 0px 11px 2px 11px;
+    margin: 4px;
+    border-radius: 18px;
+}
+
+.desc{
+    color: #000095;
+    font-style: italic;
+    clear: both;
+}
+
+

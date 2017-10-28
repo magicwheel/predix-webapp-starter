@@ -9,39 +9,6 @@
 
 <link rel="import" href="/bower_components/px-branding-bar/px-branding-bar.html" />
 
-<link rel="stylesheet" href="/predix.css">
-
-<style type="text/css">
-
-    @font-face {
-        font-family: 'CabinSketch-Regular';
-        src: url('/fonts/CabinSketch-Regular.ttf');
-        src: url('/fonts/CabinSketch-Regular.ttf') format('embedded-opentype'),
-        url('/fonts/CabinSketch-Regular.ttf') format('woff'),
-        url('/fonts/CabinSketch-Regular.ttf') format('truetype'),
-        url('/fonts/CabinSketch-Regular.ttf') format('svg');
-    }
-
-    @font-face {
-        font-family: 'Digital_tech';
-        src: url('/fonts/Digital_tech.otf');
-        /*src: url('/fonts/CabinSketch-Regular.ttf') format('embedded-opentype'),*/
-        /*url('/fonts/CabinSketch-Regular.ttf') format('woff'),*/
-        /*url('/fonts/CabinSketch-Regular.ttf') format('truetype'),*/
-        /*url('/fonts/CabinSketch-Regular.ttf') format('svg');*/
-    }
-
-    @font-face {
-        font-family: 'Gunny Rewritten';
-        src: url('/fonts/gnyrwn971.ttf');
-        src: url('/fonts/gnyrwn971.ttf') format('embedded-opentype'),
-        url('/fonts/gnyrwn971.ttf') format('woff'),
-        url('/fonts/gnyrwn971.ttf') format('truetype'),
-        url('/fonts/gnyrwn971.ttf') format('svg');
-    }
-
-</style>
-
 <script
         src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
@@ -52,11 +19,7 @@
     <template>
         <style>
             .px-key-value-pair-wrapper{
-                /*left: 50%;*/
-                /*position: relative;*/
-                /*margin-left: -74px;*/
-                /*padding:20px;*/
-            margin:20px;
+                margin:20px;
             }
             .counterButtons{
                 margin:10px;
@@ -79,51 +42,44 @@
                 color: lightslategray;
                 margin-left: 10px;
             }
-
-
-
-
-
-
-
-            .group {
-                display: flex;
-                flex-wrap: wrap;
-                width:150px;
-            }
-            .item {
-                height: 40px;
-                width: 40px;
-                background-color: #09F;
-                margin: 5px;
-                position: relative;
-            }
-            .itemTitle {
-                position: absolute;
-                left: 10px;
-                bottom: 10px;
-                color: #FFF;
-            }
-            .item:hover {
-                cursor: pointer;
-                transform: scale(1.025);
-                background-color: #333;
-            }
+            /*.group {*/
+                /*display: flex;*/
+                /*flex-wrap: wrap;*/
+                /*width:150px;*/
+            /*}*/
+            /*.item {*/
+                /*height: 40px;*/
+                /*width: 40px;*/
+                /*background-color: #09F;*/
+                /*margin: 5px;*/
+                /*position: relative;*/
+            /*}*/
+            /*.itemTitle {*/
+                /*position: absolute;*/
+                /*left: 10px;*/
+                /*bottom: 10px;*/
+                /*color: #FFF;*/
+            /*}*/
+            /*.item:hover {*/
+                /*cursor: pointer;*/
+                /*transform: scale(1.025);*/
+                /*background-color: #333;*/
+            /*}*/
 
         </style>
 
 
-        <div class="group">
-            <div class="item"><span class="itemTitle">Title</span></div>
-            <div class="item"><span class="itemTitle">Title</span></div>
-            <div class="item"><span class="itemTitle">Title</span></div>
-            <div class="item"><span class="itemTitle">Title</span></div>
-            <div class="item"><span class="itemTitle">Title</span></div>
-            <div class="item"><span class="itemTitle">Title</span></div>
-            <div class="item"><span class="itemTitle">Title</span></div>
-            <div class="item"><span class="itemTitle">Title</span></div>
-            <div class="item"><span class="itemTitle">Title</span></div>
-        </div>
+        <!--<div class="group">-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+            <!--<div class="item"><span class="itemTitle">Title</span></div>-->
+        <!--</div>-->
 
         <polymer-dragula>
              <div class="counterButtons">
@@ -146,16 +102,10 @@
                     message={{message}}
                     type={{messagetype}}
                     hide-severity
-            >
-
-            </px-alert-message>
+            > </px-alert-message>
         </div>
         <div class='clicks'>
-
-            <!--<px-icon icon="px-utl:add" style="zoom:2; color: #b8b8b8"></px-icon>-->
-
             {{clicks}}
-
         </div>
 
         </polymer-dragula>
@@ -205,9 +155,6 @@
         },
         onMinusClick: function(){
             this.dispatchEvent(new CustomEvent('minus'));
-        },
-        toggleSagaConsole: function(){
-            $('.sagaConsole').hide('slide', {direction: 'right'}, 1000)
         },
         onResetClick: function(){
             this.dispatchEvent(new CustomEvent('reset'));

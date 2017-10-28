@@ -9,10 +9,9 @@
     //</editor-fold>
 
 <!-- Defines element markup -->
-<dom-module id="my-app" style="background-color: red" >
+<dom-module id="my-app">
     <template>
         <link rel="stylesheet" href="my-app.css">
-
 
         <!--/////////////////////////////////////////-->
         <!--// console-->
@@ -27,16 +26,16 @@
                     <my-saga-session saga autoStart>
                         <polymer-dragula>
 
-                        <my-saga id="update"
-                                 name="update"
-                                 desc="Update counter on plus/minus clicks">
-                            <my-saga-update saga></my-saga-update>
-                        </my-saga>
+                            <my-saga id="update"
+                                     name="update"
+                                     desc="Update counter on plus/minus clicks">
+                                <my-saga-update saga></my-saga-update>
+                            </my-saga>
 
-                        <my-saga id="reset"
-                                 name="reset"
-                                 desc="Reset counter after 3 minus clicks">
-                            <my-saga-reset saga>
+                            <my-saga id="reset"
+                                     name="reset"
+                                     desc="Reset counter after 3 minus clicks">
+                                <my-saga-reset saga>
                         </polymer-dragula>
 
                     </my-saga-session>
@@ -52,23 +51,19 @@
         <px-card id="UI" e>
 
             <my-ui
-
-                   messagetype={{messagetype}}
-                   message={{approvalString}}
-                   loading="{{loading}}"
-                   count="{{count}}"
-                   clicks="{{clicks}}"
-                   on-plus="onPlusClick"
-                   on-minus="onMinusClick"
-                   on-reset="onResetClick"
-                   on-logout="onLogoutClick"
-                   on-login="onLoginClick"
-
-            >
-            </my-ui>
+                    messagetype={{messagetype}}
+                    message={{approvalString}}
+                    loading="{{loading}}"
+                    count="{{count}}"
+                    clicks="{{clicks}}"
+                    on-plus="onPlusClick"
+                    on-minus="onMinusClick"
+                    on-reset="onResetClick"
+                    on-logout="onLogoutClick"
+                    on-login="onLoginClick"
+            />
 
         </px-card>
-        </div>
 
         <!--<my-reducer id="reducer"></my-reducer>-->
     </template>
@@ -78,10 +73,11 @@
 <script>
     var reducer = function(state, action){
         const initialState = {
+//            logged_in
             value: 0,
             clicks: '>',
             loading: false,
-            approvalString: " PRESS A BUTTON TO UPDATE THE COUNTER",
+            approvalString: "CLICK LOGIN",
             messagetype: "unknown",
             cachedValue: 0
         };
@@ -93,56 +89,56 @@
                 return initialState;
             case 'SET_MESSAGE_TYPE':
                 return Object.assign(
-                        {},
-                        state,
-                        {messagetype: action.messagetype}
+                    {},
+                    state,
+                    {messagetype: action.messagetype}
                 );
             case 'ROLLBACK':
                 //ES5
                 return Object.assign(
-                        {},
-                        state,
-                        {value: state.cachedValue}
+                    {},
+                    state,
+                    {value: state.cachedValue}
                 );
             case 'INCREMENT':
                 //ES5
                 return Object.assign(
-                        {},
-                        state,
-                        {value: state.value +1},
-                        {cachedValue: state.value}
+                    {},
+                    state,
+                    {value: state.value +1},
+                    {cachedValue: state.value}
                 );
             case 'DECREMENT':
                 return Object.assign(
-                        {},
-                        state,
-                        {value: state.value -1},
-                        {cachedValue: state.value}
+                    {},
+                    state,
+                    {value: state.value -1},
+                    {cachedValue: state.value}
                 );
             case 'LOAD_START':
                 return Object.assign(
-                        {},
-                        state,
-                        {loading: true}
+                    {},
+                    state,
+                    {loading: true}
                 );
             case 'LOAD_FINISHED':
                 return Object.assign(
-                        {},
-                        state,
-                        {loading: false},
-                        {approvalString: action.approvalString}
+                    {},
+                    state,
+                    {loading: false},
+                    {approvalString: action.approvalString}
                 );
             case 'INCREMENT_INIT':
                 return Object.assign(
-                        {},
-                        state,
-                        {clicks: state.clicks + '+'} //,
+                    {},
+                    state,
+                    {clicks: state.clicks + '+'} //,
                 );
             case 'DECREMENT_INIT':
                 return Object.assign(
-                        {},
-                        state,
-                        {clicks: state.clicks + '-'} //,
+                    {},
+                    state,
+                    {clicks: state.clicks + '-'} //,
                 );
             default:
                 return state
@@ -152,18 +148,18 @@
     const createSagaMiddleware = ReduxSaga.default;
 
     const monitor = {
-        effectTriggered: (e)=>{},
+            effectTriggered: (e)=>{},
         effectResolved: (e)=>{},
-        effectRejected: (e)=>{},
-        registerEffectTriggered: function(cb){
-            this.effectTriggered = cb;
-        },
-        registerEffectRejected: function(cb){
-            this.effectRejected = cb;
-        },
-        registerEffectResolved: function(cb){
-            this.effectResolved = cb;
-        }
+    effectRejected: (e)=>{},
+    registerEffectTriggered: function(cb){
+        this.effectTriggered = cb;
+    },
+    registerEffectRejected: function(cb){
+        this.effectRejected = cb;
+    },
+    registerEffectResolved: function(cb){
+        this.effectResolved = cb;
+    }
     };
 
     const sagaMiddleware = createSagaMiddleware({sagaMonitor: monitor});
@@ -173,19 +169,19 @@
     let composed;
     if(window.__REDUX_DEVTOOLS_EXTENSION__) {
         composed = Redux.compose(
-                Redux.applyMiddleware(sagaMiddleware),
-                window.__REDUX_DEVTOOLS_EXTENSION__()
+            Redux.applyMiddleware(sagaMiddleware),
+            window.__REDUX_DEVTOOLS_EXTENSION__()
         )
     } else{
         composed = Redux.compose(
-                Redux.applyMiddleware(sagaMiddleware)
+            Redux.applyMiddleware(sagaMiddleware)
         )
     }
 
     const store = Redux.createStore(
-            reducer,
-            undefined,
-            composed
+        reducer,
+        undefined,
+        composed
     );
 
     const ReduxBehavior = PolymerRedux(store);
@@ -247,16 +243,6 @@
         onLoginClick(){
             this.dispatch('login');
         },
-//        slideUI(e){
-//            try{
-//                e.preventDefault();
-//                e.preventBubble();
-//            }catch(e){
-//                console.error(e);
-//            }
-//            this.slideConsole(e);
-//        },
-
         slideConsole(e){
 
             //
@@ -333,8 +319,8 @@
             $(this).find('[autoStart]').each(
 
                 (i,sagaToBeStarted)=>{
-                     sagaMiddleware.run(sagaToBeStarted.getSaga());
-                })
+                sagaMiddleware.run(sagaToBeStarted.getSaga());
+        })
         }
     });
 

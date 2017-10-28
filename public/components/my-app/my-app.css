@@ -1,8 +1,6 @@
 .sagaConsole{
     width: 33%;
-    /*display: none;*/
     float: right;
-    /*position: fixed;*/
     right: 0;
     height: 88%;
     background-size: 460px;
@@ -16,22 +14,15 @@
     opacity: 1;
     background: none;
     position: absolute;
-    float: right;
     clear: both;
 }
 .sagaConsoleInner{
     min-height: 100%;
-    /*box-shadow: 30px 7px 39px -1px white;*/
-    /*background-image: url(/images/paperEngineerOP45.png);*/
     background-size: 460px;
     margin: 0;
     padding: 2px;
     background-color: #2b3047;
     border-left: .1px solid #5f5a3e;
-}
-
-#session > .saga{
-    /*height: 100%;*/
 }
 
 #UI{

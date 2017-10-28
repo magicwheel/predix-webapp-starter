@@ -9,4 +9,13 @@
     display: flow-root;
 }
 
+.blink_me {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    10% { opacity: 0; }
+    20% { opacity: 1; }
+}
+
 

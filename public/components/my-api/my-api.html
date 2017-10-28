@@ -9,17 +9,13 @@
 		<div class="apiItem is_blink_me" style="background-color: {{bgcolor}}">
 			<!--header-->
 			<div class=header">
-				<div class="top">
-					<div class="name">&lt;my-api-{{name}}&gt;</div>
-					<div class="status">
-						type:{{type}} limit:{{limit}} - {{statusText}}
-					</div>
-				</div>
-				<div class="desc">Min Max Limiter{{desc}}</div>
-				<!--children, including child sagas-->
-				<div class="children">
-					<content></content>
-				</div>
+
+                <my-component-header
+                        name="&lt;my-saga-{{name}}&gt;"
+                        status-text="type:{{type}} limit:{{limit}} - {{statusText}}"
+                        desc="Min Max Limiter"
+                />
+
 			</div>
 		</div>
 	</template>
@@ -27,8 +23,6 @@
 
 <!-- Registers custom element -->
 <script>
-
-	let that = this;
 	Polymer({
 		is: 'my-api',
 		properties: {
@@ -51,26 +45,22 @@
 				value: 'max' //max|min
 			}
 		},
-		created:function(){
-			that = this;
-		},
-
-		signCounterChange: function(x){
+		approveCounterChange: function(newValue){
 			var that = this;
 
 			return Q.Promise(function(resolve, reject){
 				setTimeout(function(){
-					if (that.type == "max" && x <= that.limit || that.type == "min" && x >= that.limit){
+					if (that.type == "max" && newValue <= that.limit || that.type == "min" && newValue >= that.limit){
 						that.bgcolor = 'green';
-						that.statusText = x + ' - APPROVED: ' + Date();
-						resolve (x + ' - APPROVED: ' + Date());
+						that.statusText = newValue + ' - APPROVED: ' + Date();
+						resolve (newValue + ' - APPROVED: ' + Date());
 
 						$(that).find('.is_blink_me').removeClass('blink_me')
 					} else{
 						$(that).find('.is_blink_me').addClass('blink_me')
 						that.bgcolor = 'red !important';
 
-						const err = x + ' - REJECTED - ' +  (that.type == 'max' ? 'BIGGER' : 'SMALLER') + ' THEN ' + that.limit + ' : ' + Date();
+						const err = newValue + ' - REJECTED - ' +  (that.type == 'max' ? 'BIGGER' : 'SMALLER') + ' THEN ' + that.limit + ' : ' + Date();
 						that.statusText = err;
 						reject(err);
 					}

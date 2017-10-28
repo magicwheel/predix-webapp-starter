@@ -48,13 +48,13 @@
 
                     // get approval string from API
                     var approvalString = yield ReduxSaga.effects.call(
-                            me.$.api.signCounterChange.bind(me.$.api),
+                            me.$.api.approveCounterChange.bind(me.$.api),
                             newValue
                     )
 
                     // get approval string from API2
                     approvalString = yield ReduxSaga.effects.call(
-                            me.$.api2.signCounterChange.bind(me.$.api2),
+                            me.$.api2.approveCounterChange.bind(me.$.api2),
                             newValue
                     )
 

@@ -1,18 +1,16 @@
 <link rel="import" href="/bower_components/polymer/polymer.html" />
+<link rel="stylesheet" href="my-component-header.css">
 
 <dom-module id="my-component-header">
     <template>
         <div class="header">
-            <div class="top">
 
-                <div class="name">{{name}}</div>
-                <div class="status">
-                    {{statusText}}
-                </div>
+            <div class="name">{{name}}</div>
 
-                <div class="desc">{{desc}}</div>
+            <div class="status">{{statusText}}</div>
 
-            </div>
+            <div class="desc">{{desc}}</div>
+
     </template>
 </dom-module>
 
@@ -39,8 +37,6 @@
                 value: 'Initialized'
             }
         },
-
-
     });
 
 </script>
