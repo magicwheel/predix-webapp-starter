@@ -29,6 +29,8 @@
 
                 </my-saga-session>
 
+                <!--<my-saga-reset saga autostart></my-saga-reset>-->
+
             </div>
         </my-console>
 
@@ -155,11 +157,14 @@
         attached: function(){
 
             // run all sagas attributed 'autoStart'
-
             $(this).find('[autoStart]').each(
 
                 function(i,sagaToBeStarted){
-                    sagaMiddleware.run(sagaToBeStarted.getSaga());
+                    var deferred = Q.defer();
+
+                    const task = sagaMiddleware.run(sagaToBeStarted.getSaga(deferred.promise));
+
+                    deferred.resolve(task);
                 });
         }
     });

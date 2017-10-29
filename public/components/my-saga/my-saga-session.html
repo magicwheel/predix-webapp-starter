@@ -29,13 +29,18 @@
                 while (true) {
                     saga.setStatus("Waiting for login requests" , 'red');
 
+                    // take login action
                     yield ReduxSaga.effects.take('LOGIN')
 
                     saga.setStatus("Login initialized" , 'yellow');
 
+                    //put login success action
                     yield ReduxSaga.effects.put({type: 'LOGIN_SUCCESS'})
 
-                    saga.setStatus("Logged in. Starting child sagas" , 'yellow');
+                    saga.setStatus("Logged in. Starting child Sagas" , 'yellow');
+
+                    // wait 1 second (!)
+                    yield ReduxSaga.effects.call(ReduxSaga.delay, 1000);
 
                     // get all child sagas
                     const sagas = $(that).find('[saga]');
@@ -45,6 +50,7 @@
                         var deferred = Q.defer();
                         // fork the child (start and not wait for it)
                         const saga = $(that).find('[saga]')[i].getSaga(deferred.promise);
+
                         const task = yield ReduxSaga.effects.fork(saga);
 
                         // give the child a pointer to the task you just started using his code
@@ -57,17 +63,23 @@
                         activeTasks.push(task);
                     }
 
+
                     saga.setStatus("Waiting for a LOGOUT request" , 'green');
 
                     // wait for logout
                     yield ReduxSaga.effects.take('LOGOUT')
+
+
+                    saga.setStatus("Logged out. Killing child Sagas" , 'green');
+                    yield ReduxSaga.effects.call(ReduxSaga.delay, 1000);
+
 
                     // kill all children (Iterate SYNCHRONOUSLY as YIELD can not be called from a function)
                     for (var i = 0, len = activeTasks.length; i < len; i++) {
                         yield ReduxSaga.effects.cancel(activeTasks[i]);
                     }
 
-                    // clear children list
+                     // clear children list
                     activeTasks = [];
 
                     // status logged out
