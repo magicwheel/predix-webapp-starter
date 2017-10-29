@@ -9,6 +9,8 @@
 
 <link rel="import" href="/bower_components/px-branding-bar/px-branding-bar.html" />
 
+<link rel="stylesheet" href="my-ui.css">
+
 <script
         src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
         integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
@@ -17,56 +19,6 @@
 <!-- Defines element markup -->
 <dom-module id="my-ui">
     <template>
-        <style>
-            .px-key-value-pair-wrapper{
-                margin:20px;
-            }
-            .counterButtons{
-                margin:10px;
-            }
-            .counterButtons button{
-                width: 130px;
-                height: 30px;
-                margin: 7px;
-            }
-            px-alert-label {
-                zoom: 2;
-            }
-            .aboutButton {
-                top: -43px;
-                left: 160px;
-                position: relative;
-            }
-            .clicks{
-                font-size: 40px;
-                color: lightslategray;
-                margin-left: 10px;
-            }
-            /*.group {*/
-                /*display: flex;*/
-                /*flex-wrap: wrap;*/
-                /*width:150px;*/
-            /*}*/
-            /*.item {*/
-                /*height: 40px;*/
-                /*width: 40px;*/
-                /*background-color: #09F;*/
-                /*margin: 5px;*/
-                /*position: relative;*/
-            /*}*/
-            /*.itemTitle {*/
-                /*position: absolute;*/
-                /*left: 10px;*/
-                /*bottom: 10px;*/
-                /*color: #FFF;*/
-            /*}*/
-            /*.item:hover {*/
-                /*cursor: pointer;*/
-                /*transform: scale(1.025);*/
-                /*background-color: #333;*/
-            /*}*/
-
-        </style>
 
 
         <!--<div class="group">-->
@@ -91,7 +43,7 @@
                 </px-key-value-pair>
                 <button icon="px-utl:app-settings" class="btn btn--small" disabled$="{{loading}}" on-tap="onMinusClick">-</button>
                 <button icon="px-utl:app-settings" class="btn btn--small" disabled$="{{loading}}" on-tap="onPlusClick">+</button>
-                <button class="btn btn--small" disabled$="{{loading}}" on-tap="onResetClick">RESET</button>
+                <button icon="px-utl:app-settings" class="btn btn--small" disabled$="{{loading}}" on-tap="onResetClick">Reset</button>
                 <button hidden$={{!logged_in}} class="btn btn--small" on-tap="onLogoutClick">LOGOUT</button>
                 <button hidden$={{logged_in}} class="btn btn--small" on-tap="onLoginClick">LOGIN</button>
 
@@ -162,7 +114,7 @@
             this.dispatchEvent(new CustomEvent('minus'));
         },
         onResetClick: function(){
-            this.dispatchEvent(new CustomEvent('reset'));
+            this.dispatchEvent(new CustomEvent('reset_clicked'));
         },
         onLogoutClick: function(){
             this.dispatchEvent(new CustomEvent('logout'));

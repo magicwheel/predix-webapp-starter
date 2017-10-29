@@ -16,7 +16,7 @@
         <!--/////////////////////////////////////////-->
         <!--// console-->
         <!--/////////////////////////////////////////-->
-        <div class="sagaConsole" on-wheel=slideConsole>
+        <div style="display:none" class="sagaConsole" on-wheel=slideConsole>
             <div class="sagaConsoleInner" >
 
                 <my-saga id="session"
@@ -34,7 +34,7 @@
 
                             <my-saga id="reset"
                                      name="reset"
-                                     desc="Reset counter after 3 minus clicks">
+                                     desc="Reset counter after 3 reset clicks">
                                 <my-saga-reset saga>
                         </polymer-dragula>
 
@@ -59,10 +59,10 @@
                     clicks="{{clicks}}"
                     on-plus="onPlusClick"
                     on-minus="onMinusClick"
-                    on-reset="onResetClick"
+                    on-reset_clicked="onResetClick"
                     on-logout="onLogoutClick"
                     on-login="onLoginClick"
-            />
+            ></my-ui>
 
         </px-card>
 
@@ -162,6 +162,9 @@
             },
             login: function(){
                 return { type: 'LOGIN' };
+            },
+            reset_clicked: function(){
+                return { type: 'RESET_CLICKED' };
             }
         },
         onPlusClick: function(){
@@ -171,7 +174,7 @@
             this.dispatch('decrement');
         },
         onResetClick: function(){
-            this.dispatch('reset');
+            this.dispatch('reset_clicked');
         },
         onLogoutClick: function(){
             this.dispatch('logout');

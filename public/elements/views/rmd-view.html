@@ -94,80 +94,9 @@
         Polymer.Base.importHref(fragmentPath, null, function () {
           console.log('failed to load:', fragmentPath);
         }, true);
-      },
-
-      ready: function () {
-        this._loadFragment('tsChart', '/elements/timeseries-chart/timeseries-chart.html');
-        // set copy of 'this' for callback function use below
-        var that = this;
-        // initialize refresh interval
-        this.refreshTimerInterval = 0;
-        this.wsUrl = document.querySelector('#view').elementData.wsUrl;
-
-        this.$.assetBrowser.addEventListener('px-app-asset-selected', function(evt) {
-          console.log('evt', evt);
-          this.openedAsset = evt.detail.item;
-        }.bind(this));
-
-        this.$.kpiBarAjaxEl.addEventListener('response', function (evt) {
-          var data = evt.detail.response;
-          if (Array.isArray(data)) {
-            data = data[0];
-          }
-          var kpis = data.kpis, overall = data.overall;
-          kpis.forEach(function(kpi) {
-            if (kpi.label && kpi.label.toLowerCase().indexOf('compressionratio') > -1) {
-              kpi.label = 'Compression Ratio (avg)';
-            }
-          });
-          this.kpiDatapoints = kpis;
-          this.kpiOverallLabel = overall.title;
-          this.kpiOverallValue = overall.percentage;
-          this.kpiOverallMax = "100";
-        }.bind(this));
-
-        this.$.datatableAjaxEl.addEventListener('response', function (evt) {
-          this.rmdTableData = evt.detail.response;
-          this.$.kpiBarWrapperState = 'kpi-bar-wrapper-waiting';
-          this.$.kpiBarAjaxEl.generateRequest();
-
-        }.bind(this));
-
-        // Set refresh  button behavior
-        this.$.refreshTableBtn.addEventListener('click', function () {
-          console.log('sending request for rmdData');
-          that.$.datatableAjaxEl.generateRequest();
-        });
-
-        // Set refresh dropdown behavior
-        this.$.refreshFrequencyDropdown.addEventListener('px-dropdown-selection-changed', function (evt) {
-          var interval = 0;
-          switch (evt.detail.key) {
-            case '3':
-              interval = 3000;  // every 3 seconds
-              break;
-            case '15':
-              interval = 15000;  // every 3 seconds
-              break;
-            case '60':
-              interval = 60000;  // every 60 seconds
-              break;
-          }
-          clearInterval(that.refreshTimerInterval);
-
-          // If no refresh selected, clear any existing interval
-          if (interval === 0) {
-            that.refreshTimerInterval = 0;
-          }
-          // else set interval according to user selection
-          else {
-            that.refreshTimerInterval = setInterval(function () {
-              console.log('sending request for rmdData');
-              that.$.datatableAjaxEl.generateRequest();
-            }, interval);
-          }
-        });
       }
+
+
     });
   </script>
 </dom-module>

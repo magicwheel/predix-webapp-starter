@@ -12,8 +12,6 @@ const reducer = function(state, action){
     if (state === undefined) state = initialState;
 
     switch (action.type) {
-        case 'RESET':
-            return initialState;
         case 'LOGIN':
             return Object.assign(
                 {},
@@ -62,6 +60,13 @@ const reducer = function(state, action){
                 {value: state.value -1},
                 {cachedValue: state.value}
             );
+        case 'RESET':
+            return Object.assign(
+                {},
+                state,
+                {value: 0},
+                {approvalString: "3 'reset' clicks detected: counter was reset"}
+            );
         case 'LOAD_START':
             return Object.assign(
                 {},
@@ -87,6 +92,7 @@ const reducer = function(state, action){
                 state,
                 {clicks: state.clicks + '-'} //,
             );
+        case 'RESET_CLICKED':
         default:
             return state
     }

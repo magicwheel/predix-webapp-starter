@@ -32,25 +32,25 @@
 
     <div class="viewport">
       <app-location
-        route="{{route}}"
-        use-hash-as-path
-      vertical
+              route="{{route}}"
+              use-hash-as-path
+              vertical
       >
       </app-location>
       <px-app-route
-        id="starterAppRoute"
-        route="{{route}}"
-        use-hash-as-path
-        update-nav-route
-        nav-route="{{navRoute}}">
+              id="starterAppRoute"
+              route="{{route}}"
+              use-hash-as-path
+              update-nav-route
+              nav-route="{{navRoute}}">
       </px-app-route>
 
       <div class="flex flex--row flex--justify">
         <div class="u-3/4-desk u-1/1-palm">
           <px-app-nav
-            class="navbar"
-            items="{{navItems}}"
-            selected-route="{{navRoute}}">
+                  class="navbar"
+                  items="{{navItems}}"
+                  selected-route="{{navRoute}}">
           </px-app-nav>
         </div>
         <div class="u-1/1-palm">
@@ -58,6 +58,7 @@
                    style="margin: 20px 40px 0 -40px"
                    content="Show Saga console"
                    icon="px-utl:app-settings"
+                   on-selected-changed = consoleToggle
                    show-icon>
           </px-chip>
         </div>
@@ -67,7 +68,7 @@
             <px-login class="u-pr u-pt"></px-login>
           </div>
         </div>
-             </div>
+      </div>
 
       <main role="main">
         <px-view id="view" element-href="{{getHref(navRoute)}}" active load-async></px-view>
@@ -77,61 +78,74 @@
     <iron-ajax id="configAjaxEl" url="/config" auto></iron-ajax>
   </template>
   <script>
-    Polymer({
-      is: 'seed-app',
+      Polymer({
+          is: 'seed-app',
 
-      properties: {
+          properties: {
 
-        appHeader: {
-          type: String
-        },
+              appHeader: {
+                  type: String
+              },
 
-        //Global application object
-        global: {
-          type: Object,
-          value: function() {
-            return {
-              version: '1.0',
-              name: 'Predix Web App Starter - RMD Reference App'
-            }
-          }
-        },
+              //Global application object
+              global: {
+                  type: Object,
+                  value: function() {
+                      return {
+                          version: '1.0',
+                          name: 'Predix Web App Starter - RMD Reference App'
+                      }
+                  }
+              },
 
-        // Links to appear in the main navigation - px-app-nav component
-        // See https://www.predix-ui.com/#/elements/px-icon-set for available icons
-        navItems: {
-          type: Array,
-          value: function() {
-            return [
+              // Links to appear in the main navigation - px-app-nav component
+              // See https://www.predix-ui.com/#/elements/px-icon-set for available icons
+              navItems: {
+                  type: Array,
+                  value: function() {
+                      return [
 //                {
 //                    "label": "Tic Tac Toe",
 //                    "id": "rmd",
 //                    "icon": "px-obj:solar-panel"
 //                },
-                {
-                    "label": "Optimistic update",
-                    "id": "rmd",
-                    "icon": "px-utl:clock"
-                }
+                          {
+                              "label": "Optimistic update",
+                              "id": "rmd",
+                              "icon": "px-utl:clock"
+                          }
 //              {
 //                "label": "About",
 //                "id": "about",
 //                "icon": "px-com:message"
 //              }
-             ]
+                      ]
+                  }
+              },
+
+              navRoute: {
+                  type: Array,
+              }
+          },
+
+          getHref: function(navRoute) {
+              var navRoute = this.$.starterAppRoute.navRoute || ['rmd'];
+              return '/elements/views/' + navRoute[0] + '-view.html';
+          },
+
+          consoleToggle: function(e){
+              console.log('SELECTED', e.detail.value);
+              if (e.detail.value){
+                  $('.sagaConsole').width('30%');
+                  $('.sagaConsole').show();
+                  $('#UI').width('70%');
+              } else{
+                  $('.sagaConsole').hide();
+                  $('#UI').width('100%');
+
+              }
           }
-        },
 
-        navRoute: {
-          type: Array,
-        }
-      },
-
-      getHref: function(navRoute) {
-        var navRoute = this.$.starterAppRoute.navRoute || ['rmd'];
-        return '/elements/views/' + navRoute[0] + '-view.html';
-      }
-
-    });
+      });
   </script>
 </dom-module>

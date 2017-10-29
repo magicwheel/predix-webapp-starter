@@ -33,20 +33,20 @@
            );
 
             return function* resetSaga() {
-                sagaParent.setStatus("Count minus clicks: 0" , 'yellow');
+                sagaParent.setStatus("Count reset clicks: 0" , 'yellow');
 
                 while (true) {
                     //wait for minus click
-                    yield ReduxSaga.effects.take('DECREMENT_INIT')
-                    sagaParent.setStatus("Count minus clicks: 1" , 'yellow');
+                    yield ReduxSaga.effects.take('RESET_CLICKED')
+                    sagaParent.setStatus("Count reset clicks: 1" , 'yellow');
                     console.log(2);
 
                     //wait for minus click
-                    yield ReduxSaga.effects.take('DECREMENT_INIT')
-                    sagaParent.setStatus("Count minus clicks: 2" , 'yellow');
+                    yield ReduxSaga.effects.take('RESET_CLICKED')
+                    sagaParent.setStatus("Count reset clicks: 2" , 'yellow');
 
                     //wait for minus click
-                    yield ReduxSaga.effects.take('DECREMENT_INIT')
+                    yield ReduxSaga.effects.take('RESET_CLICKED')
                     yield ReduxSaga.effects.put({type: 'RESET'})
 
                     //green
@@ -55,7 +55,7 @@
                     //wait 1 sec
                     setTimeout(function () {
                         //yellow
-                        sagaParent.setStatus("Count minus clicks: 0" , 'yellow');
+                        sagaParent.setStatus("Count reset clicks: 0" , 'yellow');
                     }, 1000);
                 }
             }
