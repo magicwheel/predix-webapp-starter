@@ -2,6 +2,7 @@
     <link rel="import" href="/bower_components/polymer/polymer.html">
     <link rel="import" href="/bower_components/polymer-redux/polymer-redux.html" />
     <link rel="import" href="/components/my-ui/my-ui.html" />
+    <link rel="import" href="/components/my-console/my-console.html" />
     <link rel="import" href="/components/my-saga/my-saga.html" />
     <link rel="import" href="/components/my-saga/my-saga-reset.html" />
     <link rel="import" href="/components/my-saga/my-saga-update.html" />
@@ -17,7 +18,7 @@
         <!--// console-->
         <!--/////////////////////////////////////////-->
 
-        <div style="display:none" class="sagaConsole" on-wheel=slideConsole>
+        <my-console>
             <div class="sagaConsoleInner" >
 
                 <my-saga-session saga autoStart>
@@ -29,7 +30,7 @@
                 </my-saga-session>
 
             </div>
-        </div>
+        </my-console>
 
 
         <!--/////////////////////////////////////////-->
@@ -61,7 +62,6 @@
 
 <script src="redux/reducer.js"></script>
 <script src="redux/actions.js"></script>
-<script src="slideConsole.js"></script>
 
 
 <!-- Registers custom element -->
@@ -152,9 +152,6 @@
         onLoginClick: function(){
             this.dispatch('login');
         },
-
-        slideConsole: slideConsole,
-
         attached: function(){
 
             // run all sagas attributed 'autoStart'
