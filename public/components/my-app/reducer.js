@@ -1,6 +1,6 @@
 const reducer = function(state, action){
     const initialState = {
-//            logged_in
+        logged_in: false,
         value: 0,
         clicks: '>',
         loading: false,
@@ -14,6 +14,26 @@ const reducer = function(state, action){
     switch (action.type) {
         case 'RESET':
             return initialState;
+        case 'LOGIN':
+            return Object.assign(
+                {},
+                state,
+                {
+                    logged_in: true,
+                    approvalString: "CLICK BUTTONS TO UPDATE COUNTER",
+                    messagetype: "unknown"
+                }
+            );
+        case 'LOGOUT':
+            return Object.assign(
+                {},
+                state,
+                {
+                    logged_in: false,
+                    approvalString: "CLICK LOGIN",
+                    messagetype: "unknown"
+                }
+            );
         case 'SET_MESSAGE_TYPE':
             return Object.assign(
                 {},

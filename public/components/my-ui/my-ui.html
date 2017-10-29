@@ -92,8 +92,8 @@
                 <button icon="px-utl:app-settings" class="btn btn--small" disabled$="{{loading}}" on-tap="onMinusClick">-</button>
                 <button icon="px-utl:app-settings" class="btn btn--small" disabled$="{{loading}}" on-tap="onPlusClick">+</button>
                 <button class="btn btn--small" disabled$="{{loading}}" on-tap="onResetClick">RESET</button>
-                <button class="btn btn--small" on-tap="onLogoutClick">LOGOUT</button>
-                <button class="btn btn--small" on-tap="onLoginClick">LOGIN</button>
+                <button hidden$={{!logged_in}} class="btn btn--small" on-tap="onLogoutClick">LOGOUT</button>
+                <button hidden$={{logged_in}} class="btn btn--small" on-tap="onLoginClick">LOGIN</button>
 
             </div>
         <!--</div>-->
@@ -144,6 +144,11 @@
             },
             messagetype: {
                 type: String,
+                readOnly: false,
+                notify: true
+            },
+            logged_in: {
+                type: Boolean,
                 readOnly: false,
                 notify: true
             }

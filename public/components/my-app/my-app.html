@@ -51,6 +51,7 @@
         <px-card id="UI" e>
 
             <my-ui
+                    logged_in={{logged_in}}
                     messagetype={{messagetype}}
                     message={{approvalString}}
                     loading="{{loading}}"
@@ -140,6 +141,10 @@
             messagetype: {
                 type: String,
                 statePath: 'messagetype'
+            },
+            logged_in: {
+                type: String,
+                statePath: 'logged_in'
             }
         },
         actions: {
