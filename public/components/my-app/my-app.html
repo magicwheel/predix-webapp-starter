@@ -65,101 +65,32 @@
 
         </px-card>
 
-        <!--<my-reducer id="reducer"></my-reducer>-->
     </template>
 </dom-module>
 
+
+
+<script src="reducer.js"></script>
+<script src="slideConsole.js"></script>
+
+
 <!-- Registers custom element -->
 <script>
-    var reducer = function(state, action){
-        const initialState = {
-//            logged_in
-            value: 0,
-            clicks: '>',
-            loading: false,
-            approvalString: "CLICK LOGIN",
-            messagetype: "unknown",
-            cachedValue: 0
-        };
-
-        if (state === undefined) state = initialState;
-
-        switch (action.type) {
-            case 'RESET':
-                return initialState;
-            case 'SET_MESSAGE_TYPE':
-                return Object.assign(
-                    {},
-                    state,
-                    {messagetype: action.messagetype}
-                );
-            case 'ROLLBACK':
-                //ES5
-                return Object.assign(
-                    {},
-                    state,
-                    {value: state.cachedValue}
-                );
-            case 'INCREMENT':
-                //ES5
-                return Object.assign(
-                    {},
-                    state,
-                    {value: state.value +1},
-                    {cachedValue: state.value}
-                );
-            case 'DECREMENT':
-                return Object.assign(
-                    {},
-                    state,
-                    {value: state.value -1},
-                    {cachedValue: state.value}
-                );
-            case 'LOAD_START':
-                return Object.assign(
-                    {},
-                    state,
-                    {loading: true}
-                );
-            case 'LOAD_FINISHED':
-                return Object.assign(
-                    {},
-                    state,
-                    {loading: false},
-                    {approvalString: action.approvalString}
-                );
-            case 'INCREMENT_INIT':
-                return Object.assign(
-                    {},
-                    state,
-                    {clicks: state.clicks + '+'} //,
-                );
-            case 'DECREMENT_INIT':
-                return Object.assign(
-                    {},
-                    state,
-                    {clicks: state.clicks + '-'} //,
-                );
-            default:
-                return state
-        }
-    };
-
     const createSagaMiddleware = ReduxSaga.default;
 
     const monitor = {
-            effectTriggered: (e)=>{},
-        effectResolved: (e)=>{},
-    effectRejected: (e)=>{},
-    registerEffectTriggered: function(cb){
-        this.effectTriggered = cb;
-    },
-    registerEffectRejected: function(cb){
-        this.effectRejected = cb;
-    },
-    registerEffectResolved: function(cb){
-        this.effectResolved = cb;
-    }
+        effectTriggered: function(e){},
+        effectResolved: function(e){},
+        effectRejected: function(e){},
+        registerEffectTriggered: function(cb){
+            this.effectTriggered = cb;
+        },
+        registerEffectRejected: function(cb){
+            this.effectRejected = cb;
+        },
+        registerEffectResolved: function(cb){
+            this.effectResolved = cb;
+        }
     };
 
     const sagaMiddleware = createSagaMiddleware({sagaMonitor: monitor});
@@ -240,79 +171,13 @@
         onLogoutClick: function(){
             this.dispatch('logout');
         },
-        onLoginClick(){
+        onLoginClick: function(){
             this.dispatch('login');
         },
-        slideConsole(e){
-
-            //
-            // CTRL - zoom
-            //
-
-            if(e.ctrlKey){
-
-                e.preventDefault();
-                let currentZoom = Number($('.sagaConsoleInner').css('zoom'));
-
-                let delta = e.deltaY > 0 ? -.01 : .01;
-
-                let newZoom = currentZoom + delta;
 
 
-                newZoom > 2 ? newZoom = 2 : (newZoom < .1 ? newZoom  = .1 : null);
-
-                $('.sagaConsoleInner').css('zoom', newZoom);
-
-                return;
-            }
-
-            //
-            // SHIFT - zoom
-            //
-
-            if(e.shiftKey){
-                e.preventDefault();
-                let currentZoom = Number($('.sagaConsoleInner').css('zoom'));
-
-                let delta = e.deltaX > 0 ? -.1 : .1;
-
-                let newZoom = currentZoom + delta;
-
-                newZoom > 2 ? newZoom = 2 : (newZoom < .1 ? newZoom  = .1 : null);
-
-                $('.sagaConsoleInner').css('zoom', newZoom);
-
-                return;
-            }
-
-            //
-            //  ALT - slide
-            //
-
-            if(e.altKey){
-                e.preventDefault();
-
-                let newConsoleWidth = $('.sagaConsole').width()-e.deltaY;
-
-                let bodyWidth = $('body').width();
-
-                newConsoleWidth > bodyWidth-200 ? newConsoleWidth = bodyWidth-200 : null ;
-                newConsoleWidth < (bodyWidth/3) ? newConsoleWidth = bodyWidth/3 : null;
-
-                $('.sagaConsole').width(newConsoleWidth);
-
-
-                let consoleWidth = $('.sagaConsole').width();
-
-                const newUIWidth = bodyWidth - consoleWidth;
-
-                $('#UI').width(newUIWidth);
-            }
-
-
-
-        },
-        attached(){
+        slideConsole: slideConsole,
+        attached: function(){
 
             // run all sagas attributed 'autoStart'
 
@@ -323,7 +188,5 @@
         })
         }
     });
-
-
 
 </script>
