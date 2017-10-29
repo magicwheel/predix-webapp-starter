@@ -1,8 +1,6 @@
 const slideConsole = function(e){
 
-    //
     // CTRL - zoom
-    //
 
     if(e.ctrlKey){
 
@@ -21,9 +19,7 @@ const slideConsole = function(e){
         return;
     }
 
-    //
     // SHIFT - zoom
-    //
 
     if(e.shiftKey){
         e.preventDefault();
@@ -40,9 +36,7 @@ const slideConsole = function(e){
         return;
     }
 
-    //
     //  ALT - slide
-    //
 
     if(e.altKey){
         e.preventDefault();

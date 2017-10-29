@@ -16,30 +16,17 @@
         <!--/////////////////////////////////////////-->
         <!--// console-->
         <!--/////////////////////////////////////////-->
+
         <div style="display:none" class="sagaConsole" on-wheel=slideConsole>
             <div class="sagaConsoleInner" >
 
-                <my-saga id="session"
-                         name="session"
-                         desc="Manage login and logout">
+                <my-saga-session saga autoStart>
 
-                    <my-saga-session saga autoStart>
-                        <polymer-dragula>
+                        <my-saga-update saga></my-saga-update>
 
-                            <my-saga id="update"
-                                     name="update"
-                                     desc="Update counter on plus/minus clicks">
-                                <my-saga-update saga></my-saga-update>
-                            </my-saga>
+                        <my-saga-reset saga></my-saga-reset>
 
-                            <my-saga id="reset"
-                                     name="reset"
-                                     desc="Reset counter after 3 reset clicks">
-                                <my-saga-reset saga>
-                        </polymer-dragula>
-
-                    </my-saga-session>
-                </my-saga>
+                </my-saga-session>
 
             </div>
         </div>
@@ -48,6 +35,7 @@
         <!--/////////////////////////////////////////-->
         <!--// UI-->
         <!--/////////////////////////////////////////-->
+
         <px-card id="UI" e>
 
             <my-ui
@@ -71,7 +59,8 @@
 
 
 
-<script src="reducer.js"></script>
+<script src="redux/reducer.js"></script>
+<script src="redux/actions.js"></script>
 <script src="slideConsole.js"></script>
 
 
@@ -147,26 +136,7 @@
                 statePath: 'logged_in'
             }
         },
-        actions: {
-            increment: function(){
-                return { type: 'INCREMENT_INIT' };
-            },
-            decrement: function(){
-                return { type: 'DECREMENT_INIT' };
-            },
-            reset: function(){
-                return { type: 'RESET' };
-            },
-            logout: function(){
-                return { type: 'LOGOUT' };
-            },
-            login: function(){
-                return { type: 'LOGIN' };
-            },
-            reset_clicked: function(){
-                return { type: 'RESET_CLICKED' };
-            }
-        },
+        actions: actions,
         onPlusClick: function(){
             this.dispatch('increment');
         },
@@ -183,17 +153,17 @@
             this.dispatch('login');
         },
 
-
         slideConsole: slideConsole,
+
         attached: function(){
 
             // run all sagas attributed 'autoStart'
 
             $(this).find('[autoStart]').each(
 
-                (i,sagaToBeStarted)=>{
-                sagaMiddleware.run(sagaToBeStarted.getSaga());
-        })
+                function(i,sagaToBeStarted){
+                    sagaMiddleware.run(sagaToBeStarted.getSaga());
+                });
         }
     });
 

@@ -39,14 +39,12 @@ const reducer = function(state, action){
                 {messagetype: action.messagetype}
             );
         case 'ROLLBACK':
-            //ES5
             return Object.assign(
                 {},
                 state,
                 {value: state.cachedValue}
             );
         case 'INCREMENT':
-            //ES5
             return Object.assign(
                 {},
                 state,
@@ -93,6 +91,11 @@ const reducer = function(state, action){
                 {clicks: state.clicks + '-'} //,
             );
         case 'RESET_CLICKED':
+            return Object.assign(
+                {},
+                state,
+                {clicks: state.clicks + 'R'} //,
+            );
         default:
             return state
     }

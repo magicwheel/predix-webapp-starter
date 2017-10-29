@@ -5,7 +5,14 @@
 <!-- Defines element markup -->
 <dom-module id="my-saga-reset">
     <template>
-        <content></content>
+
+        <my-saga id="reset"
+                 name="reset"
+                 desc="Reset counter after 3 reset clicks">
+            <content></content>
+        </my-saga>
+
+
     </template>
 </dom-module>
 
@@ -15,13 +22,13 @@
         is: 'my-saga-reset',
 
         getSaga: function(taskPromise) {
-            const sagaParent = $(this).closest('my-saga')[0];
+            const saga = $(this).find('my-saga')[0];
 
             taskPromise.then(
                 function(task){
                     // my parent behaviour with my own task
                     // todo: inherited behavior? mixin?
-                    sagaParent.updateStatusOnTaskDone(task);
+                    saga.updateStatusOnTaskDone(task);
 
                     // my private behaviour
                     task.done.then(
@@ -33,29 +40,30 @@
            );
 
             return function* resetSaga() {
-                sagaParent.setStatus("Count reset clicks: 0" , 'yellow');
+                saga.setStatus("Count reset clicks: 0" , 'yellow');
 
                 while (true) {
-                    //wait for minus click
+                    //wait for reset click
                     yield ReduxSaga.effects.take('RESET_CLICKED')
-                    sagaParent.setStatus("Count reset clicks: 1" , 'yellow');
+
+                    saga.setStatus("Count reset clicks: 1" , 'yellow');
                     console.log(2);
 
                     //wait for minus click
                     yield ReduxSaga.effects.take('RESET_CLICKED')
-                    sagaParent.setStatus("Count reset clicks: 2" , 'yellow');
+                    saga.setStatus("Count reset clicks: 2" , 'yellow');
 
                     //wait for minus click
                     yield ReduxSaga.effects.take('RESET_CLICKED')
                     yield ReduxSaga.effects.put({type: 'RESET'})
 
                     //green
-                    sagaParent.setStatus("RESET" , 'green');
+                    saga.setStatus("RESET" , 'green');
 
                     //wait 1 sec
                     setTimeout(function () {
                         //yellow
-                        sagaParent.setStatus("Count reset clicks: 0" , 'yellow');
+                        saga.setStatus("Count reset clicks: 0" , 'yellow');
                     }, 1000);
                 }
             }

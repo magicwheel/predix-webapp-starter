@@ -3,9 +3,16 @@
 
 <dom-module id="my-saga-update">
     <template>
-        <my-api id="api" limit="0" type="min"></my-api>
-        <my-api id="api2" limit="3" type="max"></my-api>
-        <content></content>
+        <my-saga id="update"
+                 name="update"
+                 desc="Update counter on plus/minus clicks">
+
+            <my-api id="api" limit="0" type="min"></my-api>
+            <my-api id="api2" limit="3" type="max"></my-api>
+
+            <content></content>
+
+        </my-saga>
     </template>
 </dom-module>
 
@@ -15,18 +22,18 @@
         is: 'my-saga-update',
 
         getSaga: function(taskPromise){
-            let me = this;
-            const sagaParent = $(me).closest('my-saga')[0];
+            let that = this;
+            const saga = $(this).find('my-saga')[0];
 
             taskPromise.then(
-                    function(task){
-                        sagaParent.updateStatusOnTaskDone(task);
-                    }
+                function(task){
+                    sagaParent.updateStatusOnTaskDone(task);
+                }
             );
 
             function* incOrDec(ACTION_TYPE) { // 'INCREMENT' or 'DECREMENT'
                 try {
-                    sagaParent.setStatus("Handling action: " + ACTION_TYPE, 'yellow');
+                    saga.setStatus("Handling action: " + ACTION_TYPE, 'yellow');
 
                     // get current counter value from store
                     const currentCounterValue = yield ReduxSaga.effects.select()
@@ -48,24 +55,24 @@
 
                     // get approval string from API
                     var approvalString = yield ReduxSaga.effects.call(
-                            me.$.api.approveCounterChange.bind(me.$.api),
-                            newValue
+                        that.$.api.approveCounterChange.bind(that.$.api),
+                        newValue
                     )
 
                     // get approval string from API2
                     approvalString = yield ReduxSaga.effects.call(
-                            me.$.api2.approveCounterChange.bind(me.$.api2),
-                            newValue
+                        that.$.api2.approveCounterChange.bind(that.$.api2),
+                        newValue
                     )
 
                     // load finished
                     yield ReduxSaga.effects.put({type: 'LOAD_FINISHED', approvalString: approvalString})
 
-                    sagaParent.setStatus("Succeeded action: " + ACTION_TYPE, 'green');
+                    saga.setStatus("Succeeded action: " + ACTION_TYPE, 'green');
 
                     // relax
                     yield ReduxSaga.effects.put({type: 'SET_MESSAGE_TYPE', messagetype: 'healthy'})
-                }catch(e){
+                } catch(e){
 
                     ////////////////////////////////////////
                     //
@@ -80,13 +87,13 @@
                     yield ReduxSaga.effects.put({type: 'SET_MESSAGE_TYPE', messagetype: 'important'})
                     yield ReduxSaga.effects.put({type: 'LOAD_FINISHED', approvalString: e})
 
-                    sagaParent.setStatus("Failed action: " + ACTION_TYPE, 'red');
+                    saga.setStatus("Failed action: " + ACTION_TYPE, 'red');
 
                 }
             }
 
             return function* counterSaga() {
-                sagaParent.setStatus("Waiting for 'INCREMENT' or 'DECREMENT' actions", 'yellow');
+                saga.setStatus("Waiting for 'INCREMENT' or 'DECREMENT' actions", 'yellow');
 
                 yield ReduxSaga.effects.takeEvery('INCREMENT_INIT', incOrDec, 'INCREMENT')
                 yield ReduxSaga.effects.takeEvery('DECREMENT_INIT', incOrDec, 'DECREMENT')
