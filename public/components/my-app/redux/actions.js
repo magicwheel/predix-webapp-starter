@@ -5,9 +5,6 @@ const actions = {
     decrement: function(){
         return { type: 'DECREMENT_INIT' };
     },
-    reset: function(){
-        return { type: 'RESET' };
-    },
     logout: function(){
         return { type: 'LOGOUT' };
     },

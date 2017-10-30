@@ -57,13 +57,13 @@
                     var approvalString = yield ReduxSaga.effects.call(
                         that.$.api.approveCounterChange.bind(that.$.api),
                         newValue
-                    )
+                    );
 
                     // get approval string from API2
                     approvalString = yield ReduxSaga.effects.call(
                         that.$.api2.approveCounterChange.bind(that.$.api2),
                         newValue
-                    )
+                    );
 
                     // load finished
                     yield ReduxSaga.effects.put({type: 'LOAD_FINISHED', approvalString: approvalString})

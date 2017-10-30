@@ -90,6 +90,7 @@
     const effects = ReduxSaga.effects;
 
     let composed;
+
     if(window.__REDUX_DEVTOOLS_EXTENSION__) {
         composed = Redux.compose(
             Redux.applyMiddleware(sagaMiddleware),
